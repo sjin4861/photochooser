@@ -14,7 +14,7 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="Image 1"
         android:scaleType="centerCrop"
-        android:src="@drawable/sample_image1" />
+        android:src="@drawable/party" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -23,12 +23,24 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="Image 2"
         android:scaleType="centerCrop"
-        android:src="@drawable/sample_image2" />
+        android:src="@drawable/pizza" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Get Recommendation" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recommendation will appear here"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:textColor="@android:color/black"
+        android:gravity="start"
+        android:layout_marginBottom="16dp"/>
+
 
 </LinearLayout>
