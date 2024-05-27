@@ -4,30 +4,57 @@
 
 ------------------디렉토리 구조------------------
 MyProject/
+
 ├── app/
+
 │   ├── src/
+
 │   │   ├── main/
+
 │   │   │   ├── java/
+
 │   │   │   │   ├── com/
+
 │   │   │   │   │   ├── example/
+
 │   │   │   │   │   │   ├── photochooser/
+
 │   │   │   │   │   │   │   ├──adapter/
+
 │   │   │   │   │   │   │   ├──data/
+
 │   │   │   │   │   │   │   │   ├──api/
+
 │   │   │   │   │   │   │   │   │   ├── GptAPI.kt
+
 │   │   │   │   │   │   │   ├──ui/
+
 │   │   │   │   │   │   │   │   │   ├── MainActivity.kt
+
 │   │   │   │   │   │   │   │   │   ├── GalleryActivity.kt
+
 │   │   │   │   │   │   │   │   │   ├── SettingActivity.kt
+
 │   │   │   │   │   │   │   │   │   ├── ResultActivity.kt
+
 │   │   │   │   │   │   │   ├──di/
+
 │   │   │   │   │   │   │   ├──utils/
+
 │   │   │   │   │   │   │   │   │   ├── Constant.kt
+
 │   │   │   ├── res/
+
 │   │   │   │   ├── drawable
+
 │   │   │   │   │   ├── pictures.jpeg
+
 │   │   │   │   ├── layout
+
 │   │   │   │   │   ├── activity_main.xml
+
 │   │   │   │   │   ├── activity_gallery.xml
+
 │   │   │   │   │   ├── activity_result.xml
+
 │   │   │   │   │   ├── activity_setting.xml
