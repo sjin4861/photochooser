@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <!-- You can add UI elements here if needed, but for the current use case,
+         this layout will remain empty as we are just using GalleryActivity
+         to start an intent to pick an image from the gallery. -->
+
+</LinearLayout>
