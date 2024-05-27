@@ -1,5 +1,12 @@
 package com.example.photochooser.ui
 
+import android.Manifest
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -20,30 +27,92 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.widget.TextView
 import android.content.Intent
+import android.widget.Toast
+import android.net.Uri
+import android.app.Activity
+import android.provider.MediaStore
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val REQUEST_CODE_IMAGE1_PICK = 1002
+        const val REQUEST_CODE_IMAGE2_PICK = 1003
+        const val STRING_INTENT_ITEM_FROM_RECOMMEND_KEY = "selected_image_uri"
+    }
+    private lateinit var textView: TextView
+    private lateinit var imageView1: ImageView
+    private lateinit var imageView2: ImageView
+    private lateinit var selectedImageUri1: Uri
+    private lateinit var selectedImageUri2: Uri
+
+    private lateinit var imagePicker1: ActivityResultLauncher<Intent>
+    private lateinit var imagePicker2: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val imageView1 = findViewById<ImageView>(R.id.imageView1)
-        val imageView2 = findViewById<ImageView>(R.id.imageView2)
+        imageView1 = findViewById(R.id.imageView1)
+        imageView2 = findViewById(R.id.imageView2)
+        textView = findViewById(R.id.textView)
         val button = findViewById<Button>(R.id.button)
 
+        imagePicker1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri == null) {
+                    println("Failed to get URI for image 1")
+                    return@registerForActivityResult
+                }
+                selectedImageUri1 = uri
+                imageView1.setImageURI(uri)
+            }
+        }
+
+        imagePicker2 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri == null) {
+                    println("Failed to get URI for image 2")
+                    return@registerForActivityResult
+                }
+                selectedImageUri2 = uri
+                imageView2.setImageURI(uri)
+            }
+        }
+
+        imageView1.setOnClickListener {
+            openGalleryForImage(REQUEST_CODE_IMAGE1_PICK)
+        }
+
+        imageView2.setOnClickListener {
+            openGalleryForImage(REQUEST_CODE_IMAGE2_PICK)
+        }
+
         button.setOnClickListener {
-            val imageResId1 = R.drawable.party
-            val imageResId2 = R.drawable.pizza
+            if (!::selectedImageUri1.isInitialized || !::selectedImageUri2.isInitialized) {
+                textView.text = "사진을 두 개 선택해주세요."
+                return@setOnClickListener
+            }
 
-            val image1 = "data:image/jpeg;base64," + encodeImageToBase64(this, imageResId1)
-            val image2 = "data:image/jpeg;base64," + encodeImageToBase64(this, imageResId2)
+            println(selectedImageUri1)
+            println(selectedImageUri2)
 
-            // image을 1~100번째 글자까지만 출력
+            val image1 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView1)
+            val image2 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView2)
+
             println(image1.substring(0, 100))
             println(image2.substring(0, 100))
 
-            // Call the function to get recommendation from GPT-4 API
             getRecommendation(image1, image2)
+        }
+    }
+    private fun openGalleryForImage(requestCode: Int) {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }
+        when (requestCode) {
+            REQUEST_CODE_IMAGE1_PICK -> imagePicker1.launch(intent)
+            REQUEST_CODE_IMAGE2_PICK -> imagePicker2.launch(intent)
         }
     }
 
@@ -74,15 +143,6 @@ class MainActivity : AppCompatActivity() {
                             add("image_url", JsonObject().apply {
                                 addProperty("url", image2)
                             })
-                        })
-                    })
-                })
-                add(JsonObject().apply {
-                    addProperty("role", "assistant")
-                    add("content", JsonArray().apply {
-                        add(JsonObject().apply {
-                            addProperty("type", "text")
-                            addProperty("text", "I recommend posting the first image on Instagram. Here are three reasons why:\n\n1. **Variety and Visual Interest**: The first image features an array of items (sliced bread, various spreads, and drinks), which adds visual interest and variety to the photo.\n2. **Balanced Composition**: The composition of the first image is well-balanced, with different colors and elements neatly arranged, making it aesthetically pleasing.\n3. **Food Presentation**: The presentation of different spreads and bread suggests a cozy and inviting breakfast or brunch scenario, likely appealing to many people.\n\nSuggested Instagram caption: \n\"Starting the day with a delicious breakfast spread 😍🥐☕️ #BreakfastGoals #FoodieLife #MorningDelight\"\n\n")
                         })
                     })
                 })
@@ -123,12 +183,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    private fun encodeImageViewToBase64(context: Context, imageView: ImageView): String? {
+        // ImageView에서 drawable 가져오기
+        val drawable = imageView.drawable ?: return null
 
-    private fun encodeImageToBase64(context: Context, resId: Int): String {
-        val bitmap = BitmapFactory.decodeResource(context.resources, resId)
+        // drawable이 BitmapDrawable인지 확인
+        if (drawable !is BitmapDrawable) {
+            return null
+        }
+
+        // BitmapDrawable을 Bitmap으로 변환
+        val bitmap = drawable.bitmap
+
+        // Bitmap을 ByteArray로 변환
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
+
+        // ByteArray를 Base64로 인코딩
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 }
