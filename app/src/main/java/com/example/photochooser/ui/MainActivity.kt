@@ -19,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.TextView
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -110,8 +111,12 @@ class MainActivity : AppCompatActivity() {
                     println(responseData)
                     val assistantObject = responseData?.getAsJsonArray("choices")?.get(0)?.asJsonObject?.getAsJsonObject("message")
                     val text = assistantObject?.getAsJsonPrimitive("content")?.asString
-                    textView.text = text
+                    textView.text = "응답 수신 완료, 곧 결과 창이 뜹니다."
                     println(text)
+                    // Start ResultActivity with the response text
+                    val intent = Intent(this@MainActivity, ResultActivity::class.java)
+                    intent.putExtra("RESULT_TEXT", text)
+                    startActivity(intent)
                 } else {
                     println("Request failed: ${response.code()}")
                 }
