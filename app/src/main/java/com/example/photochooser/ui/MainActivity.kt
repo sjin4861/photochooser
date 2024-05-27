@@ -18,6 +18,8 @@ import android.util.Base64
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.widget.TextView
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.button)
 
         button.setOnClickListener {
-            val imageResId1 = R.drawable.cafe1
-            val imageResId2 = R.drawable.cafe2
+            val imageResId1 = R.drawable.party
+            val imageResId2 = R.drawable.pizza
 
             val image1 = "data:image/jpeg;base64," + encodeImageToBase64(this, imageResId1)
             val image2 = "data:image/jpeg;base64," + encodeImageToBase64(this, imageResId2)
@@ -96,6 +98,8 @@ class MainActivity : AppCompatActivity() {
         val call = apiService.getRecommendation(json)
 
         call.enqueue(object : Callback<JsonObject> {
+            val textView = findViewById<TextView>(R.id.textView)
+
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 t.printStackTrace()
             }
@@ -103,8 +107,16 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     val responseData = response.body()
-                    // Handle the response from the GPT-4 API
+                    // responsedata의 text부분만 출력
                     println(responseData)
+                    val assistantObject = responseData?.getAsJsonArray("choices")?.get(0)?.asJsonObject?.getAsJsonObject("message")
+                    val text = assistantObject?.getAsJsonPrimitive("content")?.asString
+                    textView.text = "응답 수신 완료, 곧 결과 창이 뜹니다."
+                    println(text)
+                    // Start ResultActivity with the response text
+                    val intent = Intent(this@MainActivity, ResultActivity::class.java)
+                    intent.putExtra("RESULT_TEXT", text)
+                    startActivity(intent)
                 } else {
                     println("Request failed: ${response.code()}")
                 }
