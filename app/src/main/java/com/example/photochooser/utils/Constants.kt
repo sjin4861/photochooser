@@ -1,6 +1,8 @@
 package com.example.photochooser.utils
 
 object Constants {
-    const val API_KEY = "YOUR_API_KEY"
-    const val BASE_URL = "https://api.openai.com/"
+    var API_KEY = "YOUR_API_KEY"
+    var BASE_URL = "https://api.openai.com/"
+    var TEMPERATURE = 1.0f
+    var MAX_TOKENS = 2000
 }

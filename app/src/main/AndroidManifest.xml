@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,6 +19,8 @@
         android:theme="@style/Theme.Photochooser"
         tools:targetApi="31">
         <activity android:name=".ui.ResultActivity" android:exported="true"/>
+        <activity android:name=".ui.GalleryActivity" android:exported="true"/>
+        <activity android:name=".ui.SettingActivity" android:exported="true"/>
         <activity android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
