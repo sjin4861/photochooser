@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.photochooser.R
-import com.example.photochooser.data.RetrofitClient
+import com.example.photochooser.data.api.RetrofitClient
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
@@ -31,9 +31,11 @@ import android.widget.Toast
 import android.net.Uri
 import android.app.Activity
 import android.provider.MediaStore
+import com.example.photochooser.utils.Constants
 
 class MainActivity : AppCompatActivity() {
     companion object {
+        const val SETTING_REQUEST_CODE = 1
         const val REQUEST_CODE_IMAGE1_PICK = 1002
         const val REQUEST_CODE_IMAGE2_PICK = 1003
         const val STRING_INTENT_ITEM_FROM_RECOMMEND_KEY = "selected_image_uri"
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textView: TextView
     private lateinit var imageView1: ImageView
     private lateinit var imageView2: ImageView
+    private lateinit var setting: ImageView
     private lateinit var selectedImageUri1: Uri
     private lateinit var selectedImageUri2: Uri
 
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         imageView1 = findViewById(R.id.imageView1)
         imageView2 = findViewById(R.id.imageView2)
+        setting = findViewById(R.id.setting)
         textView = findViewById(R.id.textView)
         val button = findViewById<Button>(R.id.button)
 
@@ -86,6 +90,11 @@ class MainActivity : AppCompatActivity() {
 
         imageView2.setOnClickListener {
             openGalleryForImage(REQUEST_CODE_IMAGE2_PICK)
+        }
+
+        setting.setOnClickListener(){
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
         }
 
         button.setOnClickListener {
@@ -147,12 +156,14 @@ class MainActivity : AppCompatActivity() {
                     })
                 })
             })
-            addProperty("temperature", 1)
-            addProperty("max_tokens", 3000)
+            addProperty("temperature", Constants.TEMPERATURE)
+            addProperty("max_tokens", Constants.MAX_TOKENS)
             addProperty("top_p", 1)
             addProperty("frequency_penalty", 0)
             addProperty("presence_penalty", 0)
         }
+        println(Constants.TEMPERATURE)
+        println(Constants.MAX_TOKENS)
 
         val apiService = RetrofitClient.instance
         val call = apiService.getRecommendation(json)
