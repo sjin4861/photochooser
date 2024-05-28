@@ -16,7 +16,7 @@
 //        retrofit.create(GptAPI::class.java)
 //    }
 //}
-package com.example.photochooser.data
+package com.example.photochooser.data.api
 
 import com.example.photochooser.utils.Constants
 import okhttp3.OkHttpClient
@@ -34,5 +34,5 @@ object RetrofitClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val apiService: GptAPI = retrofit.create(GptAPI::class.java)
+    val instance: GptAPI = retrofit.create(GptAPI::class.java)
 }
