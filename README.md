@@ -2,6 +2,8 @@
 
 응답은 사진 추천 이유와 게시용 추천 멘트를 받습니다.
 
+결과창은 인스타그램으로 이어집니다.
+
 <메인 화면>
 <img width="202" alt="image" src="https://github.com/sjin4861/photochooser/assets/32785250/c945aa12-364b-4e03-bcaa-18765d68ce88">
 
