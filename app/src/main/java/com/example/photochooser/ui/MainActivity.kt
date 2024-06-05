@@ -31,7 +31,18 @@ import android.widget.Toast
 import android.net.Uri
 import android.app.Activity
 import android.provider.MediaStore
+// SocketTimeoutException
+import java.net.SocketTimeoutException
 import com.example.photochooser.utils.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import java.util.concurrent.TimeUnit
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.photochooser.data.api.GptAPI
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -102,17 +113,31 @@ class MainActivity : AppCompatActivity() {
                 textView.text = "사진을 두 개 선택해주세요."
                 return@setOnClickListener
             }
+            CoroutineScope(Dispatchers.Main).launch {
 
-            println(selectedImageUri1)
-            println(selectedImageUri2)
+                val image1 = withContext(Dispatchers.IO) {
+                    "data:image/jpeg;base64," + encodeImageViewToBase64(this@MainActivity, imageView1)
+                }
+                val image2 = withContext(Dispatchers.IO) {
+                    "data:image/jpeg;base64," + encodeImageViewToBase64(this@MainActivity, imageView2)
+                }
 
-            val image1 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView1)
-            val image2 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView2)
+                println(image1.substring(0, 100))
+                println(image2.substring(0, 100))
 
-            println(image1.substring(0, 100))
-            println(image2.substring(0, 100))
-
-            getRecommendation(image1, image2)
+                getRecommendation(image1, image2)
+//            }
+//            println(selectedImageUri1)
+//            println(selectedImageUri2)
+//
+//            val image1 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView1)
+//            val image2 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView2)
+//
+//            println(image1.substring(0, 100))
+//            println(image2.substring(0, 100))
+//
+//            getRecommendation(image1, image2)
+            }
         }
     }
     private fun openGalleryForImage(requestCode: Int) {
@@ -172,7 +197,13 @@ class MainActivity : AppCompatActivity() {
             val textView = findViewById<TextView>(R.id.textView)
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                t.printStackTrace()
+                if (t is SocketTimeoutException) {
+                    runOnUiThread {
+                        textView.text = "네트워크 요청 시간이 초과되었습니다. 다시 시도해 주세요."
+                    }
+                } else {
+                    t.printStackTrace()
+                }
             }
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
@@ -197,21 +228,13 @@ class MainActivity : AppCompatActivity() {
     private fun encodeImageViewToBase64(context: Context, imageView: ImageView): String? {
         // ImageView에서 drawable 가져오기
         val drawable = imageView.drawable ?: return null
-
-        // drawable이 BitmapDrawable인지 확인
         if (drawable !is BitmapDrawable) {
             return null
         }
-
-        // BitmapDrawable을 Bitmap으로 변환
         val bitmap = drawable.bitmap
-
-        // Bitmap을 ByteArray로 변환
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
-
-        // ByteArray를 Base64로 인코딩
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 }
