@@ -126,17 +126,6 @@ class MainActivity : AppCompatActivity() {
                 println(image2.substring(0, 100))
 
                 getRecommendation(image1, image2)
-//            }
-//            println(selectedImageUri1)
-//            println(selectedImageUri2)
-//
-//            val image1 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView1)
-//            val image2 = "data:image/jpeg;base64," + encodeImageViewToBase64(this, imageView2)
-//
-//            println(image1.substring(0, 100))
-//            println(image2.substring(0, 100))
-//
-//            getRecommendation(image1, image2)
             }
         }
     }
@@ -232,9 +221,35 @@ class MainActivity : AppCompatActivity() {
             return null
         }
         val bitmap = drawable.bitmap
+
+        // Bitmap을 리사이즈하여 성능 개선
+        val resizedBitmap = resizeBitmap(bitmap, 600, 600) // 원하는 크기로 조정
+
+        // Bitmap을 ByteArray로 변환
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream) // 압축률 80%로 조정
         val byteArray = byteArrayOutputStream.toByteArray()
+
+        // ByteArray를 Base64로 인코딩
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+    // Bitmap 크기를 조정하는 함수
+    private fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        var width = bitmap.width
+        var height = bitmap.height
+
+        if (width > maxWidth || height > maxHeight) {
+            val ratioBitmap = width.toFloat() / height.toFloat()
+            if (ratioBitmap > 1) {
+                width = maxWidth
+                height = (width / ratioBitmap).toInt()
+            } else {
+                height = maxHeight
+                width = (height * ratioBitmap).toInt()
+            }
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
     }
 }
