@@ -15,8 +15,19 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_margin="15dp"
-            android:background="@drawable/back"/>
+            android:layout_marginVertical="16dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/back" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:text=" 게시물"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
@@ -55,17 +66,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.6"
-            android:text="Tag will be displayed here"
+            android:text="    Tag will be displayed here"
             android:gravity="center_vertical"/>
-        <TextView
-            android:id="@+id/resultTextView"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.3"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:gravity="center_vertical|bottom"
-            android:text="Result will be displayed here" />
+            android:layout_weight="3.3">
+
+            <TextView
+                android:id="@+id/resultTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:text="Result will be displayed here" />
+
+        </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
