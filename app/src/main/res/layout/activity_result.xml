@@ -63,17 +63,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4.4" />
-        <TextView
-            android:id="@+id/tagTextView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:text="    Tag will be displayed here"
-            android:gravity="center_vertical"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.3">
+            android:layout_weight="4.0">
 
             <TextView
                 android:id="@+id/resultTextView"

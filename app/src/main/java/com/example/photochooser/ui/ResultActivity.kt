@@ -34,17 +34,6 @@ class ResultActivity : AppCompatActivity() {
             resultImageView.setImageURI(uri)
         }
 
-        //tagTextView에 intent에서 받은 text의 "멘트"라는 글자가 있는 문장의 다음 문장을 보여줌
-
-//        val tagTextView = findViewById<TextView>(R.id.tagTextView)
-//        if (result != null) {
-//            val tag = result.substring(result.indexOf("멘트") + 3, result.indexOf("\n", result.indexOf("멘트") + 3))
-//            tagTextView.text = tag
-//        }
-//        else{
-//            val tag = "추천 멘트는 따로 없습니다."
-//            tagTextView.text = tag
-//        }
         resultTextView.text = result
 
         backButton.setOnClickListener {

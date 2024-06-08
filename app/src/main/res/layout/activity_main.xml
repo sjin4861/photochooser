@@ -38,7 +38,7 @@
         android:layout_height="0dp"
         android:contentDescription="Image 1"
         android:scaleType="centerCrop"
-        android:src="@drawable/party"
+        android:src="@drawable/no_input"
         android:layout_weight="4"
         android:layout_margin="10dp"/>
 
@@ -48,7 +48,7 @@
         android:layout_height="0dp"
         android:contentDescription="Image 2"
         android:scaleType="centerCrop"
-        android:src="@drawable/pizza"
+        android:src="@drawable/no_input"
         android:layout_weight="4"
         android:layout_margin="10dp"/>
 
