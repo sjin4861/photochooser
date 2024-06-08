@@ -181,10 +181,10 @@ class MainActivity : AppCompatActivity() {
 
         val apiService = RetrofitClient.instance
         val call = apiService.getRecommendation(json)
+        val textView = findViewById<TextView>(R.id.textView)
 
+        textView.text = "요청 중입니다. 잠시만 기다려주세요."
         call.enqueue(object : Callback<JsonObject> {
-            val textView = findViewById<TextView>(R.id.textView)
-
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 if (t is SocketTimeoutException) {
                     runOnUiThread {
@@ -207,8 +207,21 @@ class MainActivity : AppCompatActivity() {
                     // Start ResultActivity with the response text
                     val intent = Intent(this@MainActivity, ResultActivity::class.java)
                     intent.putExtra("RESULT_TEXT", text)
+                    //intent에 이미지도 넣는다
+//                    println(selectedImageUri1.toString())
+//                    println(selectedImageUri2.toString())
+//                    val image1ByteArray = convertUriToByteArray(this@MainActivity, selectedImageUri1)
+//                    val image2ByteArray = convertUriToByteArray(this@MainActivity, selectedImageUri2)
+                    intent.putExtra("image1", selectedImageUri1.toString())
+                    intent.putExtra("image2", selectedImageUri2.toString())
+//                    intent.putExtra("image1", image1ByteArray)
+//                    intent.putExtra("image2", image2ByteArray)
                     startActivity(intent)
                 } else {
+                    when (response.code()) {
+                        401 -> textView.text = "인증 실패: API 키를 확인해 주세요."
+                        else -> textView.text = "요청 실패: 오류 코드 ${response.code()}"
+                    }
                     println("Request failed: ${response.code()}")
                 }
             }
@@ -252,4 +265,21 @@ class MainActivity : AppCompatActivity() {
 
         return Bitmap.createScaledBitmap(bitmap, width, height, true)
     }
+    private fun convertUriToByteArray(context: Context, uri: Uri): ByteArray? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val byteBuffer = ByteArrayOutputStream()
+            val bufferSize = 1024
+            val buffer = ByteArray(bufferSize)
+            var len: Int
+            while (inputStream?.read(buffer).also { len = it!! } != -1) {
+                byteBuffer.write(buffer, 0, len)
+            }
+            byteBuffer.toByteArray()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 }
