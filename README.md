@@ -1,8 +1,6 @@
 # PhotoChooser
 
-## PhotoChooser는 두 장의 사진을 선택하고, 선택한 사진을 GPT API에 전송하여 추천 결과를 받는 Flutter 애플리케이션입니다. 
-
-이 앱은 3학년 1학기 ‘소프트웨어설계및실험’ 과목의 텀프로젝트로 Kotlin으로 개발했던 앱을 Flutter로 재구현한 것입니다.
+PhotoChooser는 두 장의 사진을 선택하고, 선택한 사진을 GPT API에 전송하여 추천 결과를 받는 Flutter 애플리케이션입니다. 이 앱은 3학년 1학기 ‘소프트웨어설계및실험’ 과목의 텀프로젝트로 Kotlin으로 개발했던 앱을 Flutter로 재구현한 것입니다.
 
 ## 기능 소개
 
