@@ -64,8 +64,16 @@ class _MainScreenState extends State<MainScreen> {
     String base64Image2 = base64Encode(await _image2!.readAsBytes());
 
     // 필요한 경우 이미지 데이터 앞에 "data:image/jpeg;base64," 추가
+   
     base64Image1 = 'data:image/jpeg;base64,$base64Image1';
     base64Image2 = 'data:image/jpeg;base64,$base64Image2';
+    // 압축 실시
+    base64Image1 = base64Image1.substring(0, 100);
+    base64Image2 = base64Image2.substring(0, 100);
+
+    // 100자까지만 출력 
+    print(base64Image1.substring(0, 100));
+  
 
     try {
       String? result = await ApiService.getRecommendation(base64Image1, base64Image2);
