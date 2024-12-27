@@ -48,4 +48,6 @@ macos/
 ios/
 linux/
 android/
+web/
+test/
 .metadata
