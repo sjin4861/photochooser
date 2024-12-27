@@ -67,3 +67,5 @@ flutter run
 -	image_picker: 갤러리에서 이미지 선택
 -	http: API 통신
 -	shared_preferences: 설정 값 저장
+-   permission_handler: 네트워크 관련 관한 핸들링
+-   flutter_image_compress: 이미지 압축 후 인코딩에 사용
