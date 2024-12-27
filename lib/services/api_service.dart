@@ -11,7 +11,7 @@ class ApiService {
     };
 
     final body = jsonEncode({
-      'model': 'gpt-4o-mini',
+      'model': 'gpt-4o',
       'messages': [
         {
           'role': 'system',
