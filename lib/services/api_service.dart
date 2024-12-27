@@ -11,7 +11,7 @@ class ApiService {
     };
 
     final body = jsonEncode({
-      'model': 'gpt-4o',
+      'model': 'gpt-4o-mini',
       'messages': [
         {
           'role': 'system',
@@ -19,7 +19,12 @@ class ApiService {
         },
         {
           'role': 'user',
-          'content': [image1, image2],
+          'content': 'Image 1: $image1\nImage 2: $image2',
+          // 'content': [
+          //   {'type': 'text', 'text': "image1, 2 are here!"},
+          //   {'type': 'image_url', 'image_url': {'url': image1}, 'alt_text': 'image1'},
+          //   {'type': 'image_url', 'image_url': {'url': image2}, 'alt_text': 'image2'},
+          // ],
         },
       ],
       'temperature': Constants.temperature,
@@ -34,6 +39,7 @@ class ApiService {
       return resultText;
     } else {
       // 오류 처리
+      print('Request : ${response.request}');
       print('Request failed: ${response.statusCode}');
       return null;
     }
