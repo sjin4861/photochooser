@@ -1,4 +1,7 @@
 # PhotoChooser
+<img width="296" alt="스크린샷 2024-12-27 오후 3 37 29" src="https://github.com/user-attachments/assets/0805029c-4571-4080-8cd1-e364aac37757" />
+<img width="296" alt="스크린샷 2024-12-27 오후 3 37 12" src="https://github.com/user-attachments/assets/953f0e82-abf4-4255-8c19-eea30ec4a67a" />
+<img width="296" alt="스크린샷 2024-12-27 오후 3 39 06" src="https://github.com/user-attachments/assets/5e2183c5-542b-45da-ab47-bf50e7d13751" />
 
 PhotoChooser는 두 장의 사진을 선택하고, 선택한 사진을 GPT API에 전송하여 추천 결과를 받는 Flutter 애플리케이션입니다. 이 앱은 3학년 1학기 ‘소프트웨어설계및실험’ 과목의 텀프로젝트로 Kotlin으로 개발했던 앱을 Flutter로 재구현한 것입니다.
 
