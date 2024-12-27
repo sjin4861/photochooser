@@ -20,21 +20,29 @@ class ResultScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('결과'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(resultText),
-            SizedBox(height: 16),
-            Image.file(selectedImage),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.popUntil(context, ModalRoute.withName('/'));
-              },
-              child: Text('처음으로'),
-            ),
-          ],
+      body: SingleChildScrollView( // 스크롤 가능하도록 수정
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                resultText,
+                style: TextStyle(fontSize: 16.0),
+              ),
+              SizedBox(height: 16),
+              Image.file(selectedImage),
+              SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  },
+                  child: Text('처음으로'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
