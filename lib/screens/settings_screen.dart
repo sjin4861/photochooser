@@ -71,9 +71,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Text('Max Tokens: $_maxTokens'),
             Slider(
               value: _maxTokens.toDouble(),
-              min: 50,
-              max: 500,
-              divisions: 9,
+              min: 500,
+              max: 3000,
+              divisions: 10,
               label: _maxTokens.toString(),
               onChanged: (value) {
                 setState(() {
