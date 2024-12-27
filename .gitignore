@@ -46,3 +46,6 @@ lib/utils/constants.dart
 windows/
 macos/
 ios/
+linux/
+android/
+.metadata
